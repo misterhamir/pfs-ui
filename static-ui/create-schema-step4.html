@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Create Schema (Step 4)</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #84cc16;
+            --color-primary-hover: #65a30d;
+            --color-primary-light: #f7fee7;
+            --color-background: #ffffff;
+            --color-surface: #f5f5f5;
+            --color-text-primary: #374151;
+            --color-text-secondary: #6b7280;
+            --color-border: #e5e7eb;
+            --color-success: #84cc16;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+    </style>
+    <!-- Simple script for interactivity matching React state -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fields = document.querySelectorAll('.schema-field');
+            const propertyPanel = document.getElementById('property-panel');
+            const emptyPanel = document.getElementById('empty-panel');
+
+            // Map logic
+            fields.forEach(field => {
+                field.addEventListener('click', (e) => {
+                    // Update active state in sidebar
+                    document.querySelectorAll('.schema-field-item').forEach(el => {
+                        el.classList.remove('border-primary', 'bg-primary-light');
+                        el.classList.add('border-border', 'hover:border-primary/50');
+                    });
+
+                    const fieldId = field.dataset.fieldId;
+                    const sidebarItem = document.querySelector(`.schema-field-item[data-field-id="${fieldId}"]`);
+                    if (sidebarItem) {
+                        sidebarItem.classList.remove('border-border', 'hover:border-primary/50');
+                        sidebarItem.classList.add('border-primary', 'bg-primary-light');
+                    }
+
+                    // Update active state in document
+                    fields.forEach(el => {
+                        el.classList.remove('border-primary', 'bg-primary-light');
+                        el.classList.add('border-transparent', 'hover:border-primary/30');
+                    });
+                    field.classList.remove('border-transparent', 'hover:border-primary/30');
+                    field.classList.add('border-primary', 'bg-primary-light');
+
+                    // Show Property Panel
+                    emptyPanel.classList.add('hidden');
+                    propertyPanel.classList.remove('hidden');
+
+                    // Update Property panel content based on mock data
+                    document.getElementById('prop-name').textContent = sidebarItem.querySelector('.font-medium').textContent;
+                    document.getElementById('prop-id').textContent = `Field ID: ${fieldId}`;
+                    document.getElementById('input-name').value = sidebarItem.querySelector('.font-medium').textContent;
+
+                    // Value Extraction
+                    const valueEl = field.querySelector('.font-bold');
+                    if (valueEl) {
+                        document.getElementById('extracted-value-container').classList.remove('hidden');
+                        document.getElementById('extracted-value').textContent = valueEl.textContent;
+                    } else if (field.tagName === 'DIV' && field.querySelector('table')) {
+                        // table case
+                        document.getElementById('extracted-value-container').classList.remove('hidden');
+                        document.getElementById('extracted-value').textContent = 'Product A, Product B';
+                    } else {
+                        document.getElementById('extracted-value-container').classList.add('hidden');
+                    }
+                });
+            });
+
+            // Sidebar items click
+            const sidebarItems = document.querySelectorAll('.schema-field-item');
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const fieldId = item.dataset.fieldId;
+                    const docField = document.querySelector(`.schema-field[data-field-id="${fieldId}"]`);
+                    if (docField) docField.click();
+                });
+            });
+        });
+    </script>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <div class="flex h-full w-64 flex-col border-r border-border bg-background shrink-0">
+        <div class="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
+                <div class="bg-[#1C1C1C] text-white p-1 rounded-sm w-7 h-7 flex items-center justify-center">
+                    <div class="w-3 h-3 bg-primary transform rotate-45"></div>
+                </div>
+                RENUSCULE
+            </div>
+        </div>
+
+        <div class="flex flex-1 flex-col overflow-y-auto px-3 py-6">
+            <nav class="flex-1 space-y-1">
+                <a href="dashboard.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="schema-library.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors bg-primary-light text-primary border-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" x2="8" y1="13" y2="13" />
+                        <line x1="16" x2="8" y1="17" y2="17" />
+                        <line x1="10" x2="8" y1="9" y2="9" />
+                    </svg>
+                    Schema Manager
+                </a>
+                <a href="training-files.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z" />
+                        <path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8" />
+                        <path d="M15 2v5h5" />
+                    </svg>
+                    Training Files
+                </a>
+                <a href="users-roles.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Users & Roles
+                </a>
+                <a href="workflows.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="16" y="16" width="6" height="6" rx="1" />
+                        <rect x="2" y="16" width="6" height="6" rx="1" />
+                        <rect x="9" y="2" width="6" height="6" rx="1" />
+                        <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+                        <path d="M12 12V8" />
+                    </svg>
+                    Workflows
+                </a>
+                <a href="deployments.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                        <path
+                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                    </svg>
+                    Deployments
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border p-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-9 w-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-primary">
+                    JS
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-text-primary">Jane Smith</span>
+                    <span class="text-xs text-text-secondary">Admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 bg-[#f9fafb]">
+        <!-- Header -->
+        <header class="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-8">
+            <div class="flex items-center">
+                <h1 class="text-lg font-bold uppercase tracking-wide text-text-primary drop-shadow-sm">
+                    CREATE SCHEMA
+                </h1>
+            </div>
+        </header>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Progress Steps -->
+            <div class="bg-white border-b border-border px-6 py-4">
+                <div class="max-w-3xl mx-auto">
+                    <div class="flex items-center justify-between">
+                        <!-- Step 1 -->
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors bg-primary text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 6 9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-text-primary">Schema Info</span>
+                            </div>
+                            <div class="w-16 h-0.5 mx-4 bg-primary"></div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors bg-primary text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 6 9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-text-primary">Upload Documents</span>
+                            </div>
+                            <div class="w-16 h-0.5 mx-4 bg-primary"></div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors bg-primary text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 6 9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-text-primary">AI Processing</span>
+                            </div>
+                            <div class="w-16 h-0.5 mx-4 bg-primary"></div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors bg-primary text-white">
+                                    4
+                                </div>
+                                <span class="text-sm font-medium text-text-primary">Configure Fields</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Content -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Left Sidebar - Defined Fields -->
+                <div class="w-72 border-r border-border bg-white flex flex-col">
+                    <div class="p-4 border-b border-border">
+                        <div class="relative">
+                            <input type="text" placeholder="Search fields..."
+                                class="w-full pl-9 pr-4 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Defined
+                                Fields</span>
+                            <button class="p-1 text-primary hover:bg-primary-light rounded transition-colors">
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" x2="12" y1="5" y2="19" />
+                                    <line x1="5" x2="19" y1="12" y2="12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="space-y-2">
+                            <!-- Field 1 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-primary bg-primary-light"
+                                data-field-id="1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">vendor_name</span>
+                                    <span class="text-xs px-1.5 py-0.5 rounded bg-green-100 text-green-700">Text</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">Required</span>
+                                    <span class="text-primary">98% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 2 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="2">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">invoice_number</span>
+                                    <span class="text-xs px-1.5 py-0.5 rounded bg-green-100 text-green-700">Text</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">Required</span>
+                                    <span class="text-primary">99% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 3 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">invoice_date</span>
+                                    <span
+                                        class="text-xs px-1.5 py-0.5 rounded bg-orange-100 text-orange-700">Date</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">Required</span>
+                                    <span class="text-primary">95% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 4 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">due_date</span>
+                                    <span
+                                        class="text-xs px-1.5 py-0.5 rounded bg-orange-100 text-orange-700">Date</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">92% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 5 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="5">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">total_amount</span>
+                                    <span
+                                        class="text-xs px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-700">Currency</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">Required</span>
+                                    <span class="text-primary">97% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 6 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="6">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">tax_amount</span>
+                                    <span
+                                        class="text-xs px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-700">Currency</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-warning">88% confidence</span>
+                                </div>
+                            </div>
+
+                            <!-- Field 7 -->
+                            <div class="schema-field-item p-3 rounded-lg border cursor-pointer transition-all border-border hover:border-primary/50"
+                                data-field-id="7">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium text-text-primary">line_items</span>
+                                    <span class="text-xs px-1.5 py-0.5 rounded bg-teal-100 text-teal-700">Array</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-text-secondary">
+                                    <span class="text-primary">Required</span>
+                                    <span class="text-warning">85% confidence</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tool Palette -->
+                    <div class="p-4 border-t border-border">
+                        <span
+                            class="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3 block">Field
+                            Types</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button
+                                class="flex flex-col items-center gap-1 p-3 border border-border rounded-lg hover:border-primary hover:bg-primary-light/30 transition-all">
+                                <svg class="w-5 h-5 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
+                                    <path d="m13 13 6 6" />
+                                </svg>
+                                <span class="text-xs text-text-secondary">Text</span>
+                            </button>
+                            <button
+                                class="flex flex-col items-center gap-1 p-3 border border-border rounded-lg hover:border-primary hover:bg-primary-light/30 transition-all">
+                                <svg class="w-5 h-5 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="3" x2="21" y1="9" y2="9" />
+                                    <line x1="3" x2="21" y1="15" y2="15" />
+                                    <line x1="9" x2="9" y1="3" y2="21" />
+                                    <line x1="15" x2="15" y1="3" y2="21" />
+                                </svg>
+                                <span class="text-xs text-text-secondary">Table</span>
+                            </button>
+                            <button
+                                class="flex flex-col items-center gap-1 p-3 border border-border rounded-lg hover:border-primary hover:bg-primary-light/30 transition-all">
+                                <svg class="w-5 h-5 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 11 12 14 22 4" />
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                </svg>
+                                <span class="text-xs text-text-secondary">Checkbox</span>
+                            </button>
+                            <button
+                                class="flex flex-col items-center gap-1 p-3 border border-border rounded-lg hover:border-primary hover:bg-primary-light/30 transition-all">
+                                <svg class="w-5 h-5 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                                    <path d="M2 2l7.586 7.586" />
+                                    <circle cx="11" cy="11" r="2" />
+                                </svg>
+                                <span class="text-xs text-text-secondary">Signature</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center - Document Preview -->
+                <div class="flex-1 bg-[#f0f0f0] p-6 overflow-y-auto">
+                    <div class="bg-white rounded-lg shadow-lg max-w-2xl mx-auto">
+                        <!-- Document Header -->
+                        <div class="flex items-center justify-between p-3 border-b border-border">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-primary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" x2="8" y1="13" y2="13" />
+                                    <line x1="16" x2="8" y1="17" y2="17" />
+                                    <line x1="10" x2="8" y1="9" y2="9" />
+                                </svg>
+                                <span class="text-sm font-medium text-text-primary">sample_invoice.pdf</span>
+                                <span class="text-xs text-text-secondary">Page 1 of 1</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button
+                                    class="p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface rounded">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                                        <line x1="8" x2="14" y1="11" y2="11" />
+                                    </svg>
+                                </button>
+                                <span class="text-xs text-text-secondary px-2">100%</span>
+                                <button
+                                    class="p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface rounded">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                                        <line x1="8" x2="14" y1="11" y2="11" />
+                                        <line x1="11" x2="11" y1="8" y2="14" />
+                                    </svg>
+                                </button>
+                                <button
+                                    class="p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface rounded">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                                        <path d="M21 3v5h-5" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI Detection Banner -->
+                        <div class="bg-primary-light px-4 py-2 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                            <span class="text-sm text-primary font-medium">AI Detection Active</span>
+                            <span class="text-sm text-text-secondary">- Click on document regions to map fields</span>
+                        </div>
+
+                        <!-- Document Content -->
+                        <div class="p-8 min-h-[500px] relative">
+                            <div class="space-y-6">
+                                <div class="text-center">
+                                    <h1 class="text-2xl font-bold text-text-primary">INVOICE</h1>
+                                </div>
+
+                                <div class="flex justify-between">
+                                    <div class="schema-field p-3 rounded border-2 transition-all cursor-pointer border-primary bg-primary-light"
+                                        data-field-id="1">
+                                        <p class="text-sm text-text-secondary">From:</p>
+                                        <p class="font-bold text-text-primary">Acme Corporation</p>
+                                        <p class="text-sm text-text-secondary">123 Business St</p>
+                                    </div>
+                                    <div class="schema-field p-3 rounded border-2 transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                        data-field-id="2">
+                                        <p class="text-sm text-text-secondary">Invoice #:</p>
+                                        <p class="font-bold text-text-primary">INV-2024-00847</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between">
+                                    <div class="schema-field p-3 rounded border-2 transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                        data-field-id="3">
+                                        <p class="text-sm text-text-secondary">Date:</p>
+                                        <p class="font-bold text-text-primary">February 15, 2024</p>
+                                    </div>
+                                    <div class="schema-field p-3 rounded border-2 transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                        data-field-id="4">
+                                        <p class="text-sm text-text-secondary">Due Date:</p>
+                                        <p class="font-bold text-text-primary">March 15, 2024</p>
+                                    </div>
+                                </div>
+
+                                <!-- Line Items Table -->
+                                <div class="schema-field border-2 rounded transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                    data-field-id="7">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-surface">
+                                            <tr>
+                                                <th class="p-2 text-left">Description</th>
+                                                <th class="p-2 text-right">Qty</th>
+                                                <th class="p-2 text-right">Price</th>
+                                                <th class="p-2 text-right">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="p-2">Product A</td>
+                                                <td class="p-2 text-right">2</td>
+                                                <td class="p-2 text-right">$50.00</td>
+                                                <td class="p-2 text-right">$100.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-2">Product B</td>
+                                                <td class="p-2 text-right">1</td>
+                                                <td class="p-2 text-right">$75.00</td>
+                                                <td class="p-2 text-right">$75.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <div class="w-48 space-y-2">
+                                        <div class="flex justify-between">
+                                            <span class="text-text-secondary">Subtotal:</span>
+                                            <span>$175.00</span>
+                                        </div>
+                                        <div class="schema-field flex justify-between p-1 rounded border-2 transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                            data-field-id="6">
+                                            <span class="text-text-secondary">Tax:</span>
+                                            <span>$17.50</span>
+                                        </div>
+                                        <div class="schema-field flex justify-between font-bold text-lg p-1 rounded border-2 transition-all cursor-pointer border-transparent hover:border-primary/30"
+                                            data-field-id="5">
+                                            <span>Total:</span>
+                                            <span>$192.50</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Properties -->
+                <div class="w-80 border-l border-border bg-white overflow-y-auto">
+                    <!-- Default State (Field 1 selected) -->
+                    <div id="property-panel" class="p-4 space-y-6">
+                        <div>
+                            <h3 id="prop-name" class="font-bold text-text-primary mb-1">vendor_name</h3>
+                            <p id="prop-id" class="text-xs text-text-secondary">Field ID: 1</p>
+                        </div>
+
+                        <!-- Properties Section -->
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Properties
+                            </h4>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-1">Field Name</label>
+                                <input id="input-name" type="text" value="vendor_name"
+                                    class="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-1">Data Type</label>
+                                <div class="relative">
+                                    <select
+                                        class="w-full px-3 py-2 border border-border rounded-lg text-sm appearance-none focus:outline-none focus:ring-1 focus:ring-primary">
+                                        <option value="string">Text</option>
+                                        <option value="number">Number</option>
+                                        <option value="date">Date</option>
+                                        <option value="boolean">Boolean</option>
+                                        <option value="array">Array</option>
+                                        <option value="currency">Currency</option>
+                                    </select>
+                                    <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Extracted Data Section -->
+                        <div id="extracted-value-container" class="space-y-4">
+                            <h4 class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Extracted
+                                Data</h4>
+                            <div class="p-4 bg-surface rounded-lg border-2 border-dashed border-primary/30">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <span class="text-xs text-text-secondary">Value at position</span>
+                                    <button
+                                        class="p-1 text-text-secondary hover:text-primary hover:bg-primary-light/20 rounded transition-colors"
+                                        title="Copy value">
+                                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p id="extracted-value" class="text-base font-semibold text-text-primary break-all">Acme
+                                    Corporation</p>
+                                <div class="mt-2 flex items-center gap-1.5">
+                                    <svg class="w-3 h-3 text-primary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <circle cx="12" cy="12" r="6" />
+                                        <circle cx="12" cy="12" r="2" />
+                                    </svg>
+                                    <span class="text-xs text-text-secondary">Mapped from document</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Validation Section -->
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-semibold text-text-secondary uppercase tracking-wider">Validation
+                            </h4>
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" checked
+                                    class="rounded border-border text-primary focus:ring-primary" />
+                                <span class="text-sm text-text-primary">Required field</span>
+                            </label>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-1">Confidence
+                                    Threshold</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="range" min="0" max="100" value="90" class="flex-1 accent-primary"
+                                        readonly />
+                                    <span class="text-sm font-medium text-primary">90%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="pt-4 border-t border-border space-y-2">
+                            <button
+                                class="w-full flex items-center justify-center gap-2 px-4 py-2 text-error border border-error/30 rounded-lg hover:bg-error/10 transition-colors text-sm">
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                    <line x1="10" x2="10" y1="11" y2="17" />
+                                    <line x1="14" x2="14" y1="11" y2="17" />
+                                </svg>
+                                Delete Field
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty State (hidden by default since field 1 is active) -->
+                    <div id="empty-panel"
+                        class="hidden p-4 text-center text-text-secondary h-full flex flex-col justify-center">
+                        <svg class="w-8 h-8 mx-auto mb-2 opacity-50" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <p class="text-sm">Select a field to view properties</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="bg-white border-t border-border px-6 py-4">
+                <div class="flex items-center justify-between max-w-7xl mx-auto">
+                    <a href="schema-library.html"
+                        class="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m12 19-7-7 7-7" />
+                            <path d="M19 12H5" />
+                        </svg>
+                        Cancel
+                    </a>
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="px-4 py-2 text-text-secondary border border-border rounded-lg hover:bg-surface transition-colors font-medium">
+                            Save as Draft
+                        </button>
+                        <a href="schema-library.html"
+                            class="flex items-center gap-2 px-6 py-2 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg transition-colors">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Deploy Schema
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
