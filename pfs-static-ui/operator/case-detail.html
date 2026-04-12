@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Case Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #031634;
+            --color-primary-hover: #1A2B4A;
+            --color-primary-light: #f2f4f6;
+            --color-background: #f8f9fb;
+            --color-surface: #f2f4f6;
+            --color-text-primary: #031634;
+            --color-text-secondary: #44474e;
+            --color-border: #e1e2e4;
+            --color-success: #415e92;
+            --color-warning: #4e5e80;
+            --color-error: #ba1a1a;
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+
+        .tab-active { @apply border-primary text-primary border-b-2; }
+        .tab-inactive { @apply border-transparent text-text-secondary hover:text-text-primary border-b-2; }
+    </style>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+
+    <!-- Sidebar (Simplified for Case View) -->
+    <div class="flex h-full w-20 flex-col border-r border-border bg-background shrink-0 items-center py-6 gap-6">
+        <a href="operator-queue.html" class="p-3 bg-primary-light text-primary rounded-lg shadow-sm border border-primary/20" title="Go back to Queue">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </a>
+        <div class="h-px w-10 bg-border"></div>
+        <div class="flex flex-col gap-4">
+            <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-xs font-bold" title="History">HS</div>
+            <div class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-xs font-bold" title="Notes">NT</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 bg-background overflow-hidden">
+        
+        <!-- Header -->
+        <header class="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-8">
+            <div class="flex items-center gap-4">
+                <nav class="flex text-xs text-text-secondary uppercase tracking-widest font-bold gap-2">
+                    <a href="operator-queue.html" class="hover:text-primary">MY QUEUE</a>
+                    <span>/</span>
+                    <span class="text-text-primary">PROC-0421</span>
+                </nav>
+                <!-- Parent Instance Link (Conditional) -->
+                <div class="h-4 w-px bg-border"></div>
+                <div class="flex items-center gap-1 text-[10px] font-bold text-text-secondary">
+                    <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a5 5 0 0 1 10 0v4"/><rect width="18" height="12" x="3" y="11" rx="2"/></svg>
+                    SUB-PROCESS OF <a href="#" class="text-primary hover:underline">PROC-0390</a>
+                </div>
+                <div class="h-4 w-px bg-border"></div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-lg font-bold text-text-primary">Invoice #5021 — PT Maju Jaya</h1>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-orange-50 text-orange-700 border border-orange-200">
+                        ● Pending Review
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-xs text-text-secondary font-medium">
+                <div class="flex flex-col items-end">
+                    <span class="uppercase tracking-widest text-[9px] font-bold text-text-secondary/60">Due Date</span>
+                    <span class="text-text-primary">Apr 10, 2026 (In 1 day)</span>
+                </div>
+                <div class="h-8 w-px bg-border"></div>
+                <div class="flex flex-col items-end">
+                    <span class="uppercase tracking-widest text-[9px] font-bold text-text-secondary/60">Assigned To</span>
+                    <span class="text-text-primary">AP Team</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="flex px-8 border-b border-border bg-background flex-none">
+            <button class="px-6 py-4 text-sm font-bold tracking-wide tab-inactive">DOCUMENTS (1)</button>
+            <button class="px-6 py-4 text-sm font-bold tracking-wide tab-active">EXTRACTED DATA</button>
+            <button class="px-6 py-4 text-sm font-bold tracking-wide tab-inactive">HISTORY</button>
+        </div>
+
+        <!-- Content Area: Split View -->
+        <div class="flex-1 flex overflow-hidden">
+            
+            <!-- Left: Document Viewer (50%) -->
+            <div class="w-1/2 border-r border-border bg-surface flex flex-col overflow-hidden">
+                <div class="p-4 border-b border-border bg-white flex justify-between items-center">
+                    <span class="text-xs font-bold text-text-secondary uppercase tracking-widest">Document: invoice_5021.pdf</span>
+                    <div class="flex gap-2">
+                        <button class="p-1 px-2 border border-border rounded text-xs hover:bg-surface"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 2-9 9 9 9"/><path d="M2 11h20"/></svg></button>
+                        <button class="p-1 px-2 border border-border rounded text-xs hover:bg-surface"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2 9 9-9 9"/><path d="M22 11H2"/></svg></button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-auto p-8 flex justify-center">
+                    <!-- Mock Document -->
+                    <div class="w-[500px] h-[700px] bg-white shadow-2xl border border-border p-12 flex flex-col gap-8">
+                        <div class="flex justify-between items-start">
+                            <div class="text-3xl font-black italic text-primary">INVOICE</div>
+                            <div class="text-right">
+                                <p class="font-bold text-base">PT Maju Jaya</p>
+                                <p class="text-xs text-text-secondary">Jl. Sudirman No. 45<br>Jakarta, Indonesia</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 text-xs gap-y-2">
+                            <p class="font-bold">Invoice No:</p><p>#5021</p>
+                            <p class="font-bold">Date:</p><p>April 05, 2026</p>
+                            <p class="font-bold">PO No:</p><p>PO #001</p>
+                        </div>
+                        <div class="mt-8">
+                            <table class="w-full text-xs">
+                                <thead class="border-b-2 border-text-primary">
+                                    <tr class="text-left"><th class="pb-2">Description</th><th class="pb-2 text-right">Amount</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-border">
+                                    <tr><td class="py-2">Cloud Infrastructure Services - March</td><td class="py-2 text-right">Rp 12.500.000</td></tr>
+                                    <tr><td class="py-2">Consultancy Fees</td><td class="py-2 text-right">Rp 250.000</td></tr>
+                                </tbody>
+                                <tfoot class="border-t-2 border-text-primary">
+                                    <tr><td class="pt-4 font-bold text-sm text-primary uppercase tracking-widest">Grand Total</td><td class="pt-4 text-right font-black text-sm">Rp 12.750.000</td></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Data Panel (50%) -->
+            <div class="w-1/2 flex flex-col overflow-hidden">
+                <div class="flex-1 overflow-y-auto p-6">
+                    <div class="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-surface border-b border-border text-left">
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold tracking-widest text-text-secondary">Field</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold tracking-widest text-text-secondary">Extracted Value</th>
+                                    <th class="px-4 py-3 text-[10px] uppercase font-bold tracking-widest text-text-secondary text-right">Conf %</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border">
+                                <tr>
+                                    <td class="px-4 py-4 font-medium text-text-primary">Vendor Name</td>
+                                    <td class="px-4 py-4">PT Maju Jaya</td>
+                                    <td class="px-4 py-4 text-right text-success font-bold">98%</td>
+                                </tr>
+                                <tr class="bg-amber-50/50">
+                                    <td class="px-4 py-4 font-medium text-text-primary">Total Amount</td>
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <input type="text" value="12,500,000" class="border border-warning rounded px-2 py-1 text-sm focus:ring-1 focus:ring-warning w-32 font-bold text-warning">
+                                            <span class="text-warning"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>
+                                        </div>
+                                        <p class="text-[10px] text-warning mt-1 italic font-medium">Auto-extracted value was corrected by AI from 12.5M to 12.75M in L1.</p>
+                                    </td>
+                                    <td class="px-4 py-4 text-right text-warning font-bold">78%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-4 font-medium text-text-primary">Invoice Date</td>
+                                    <td class="px-4 py-4">2026-04-05</td>
+                                    <td class="px-4 py-4 text-right text-success font-bold">95%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-4 font-medium text-text-primary">PO Number</td>
+                                    <td class="px-4 py-4">PO #001</td>
+                                    <td class="px-4 py-4 text-right text-text-secondary font-bold">88%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-4 font-medium text-text-primary">Currency</td>
+                                    <td class="px-4 py-4">IDR</td>
+                                    <td class="px-4 py-4 text-right text-success font-bold">100%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer: Actions Bar -->
+                <div class="p-6 border-t border-border bg-background flex flex-col gap-4 shadow-[0_-4px_10px_rgba(0,0,0,0.03)] pb-8">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] uppercase font-black tracking-widest text-text-secondary">Decision Notes</label>
+                        <textarea placeholder="Add optional notes for the next stage..." class="w-full border border-border rounded-lg p-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary min-h-[80px]"></textarea>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="bg-primary hover:bg-primary-hover text-white px-8 py-3 font-black uppercase tracking-widest rounded-lg flex-1 transition-all shadow-lg hover:shadow-primary/20">APPROVE</button>
+                        <button class="bg-background border border-border text-text-secondary hover:text-text-primary px-8 py-3 font-black uppercase tracking-widest rounded-lg flex-1 transition-all hover:bg-surface">REQUEST INFO</button>
+                        <button class="bg-error/10 border border-error/30 text-error hover:bg-error hover:text-white px-8 py-3 font-black uppercase tracking-widest rounded-lg flex-1 transition-all">REJECT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

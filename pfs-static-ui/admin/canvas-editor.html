@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP - Workflow Canvas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://unpkg.com/drawflow@0.0.60/dist/drawflow.min.css" />
+    <script src="https://unpkg.com/drawflow@0.0.60/dist/drawflow.min.js"></script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            background: #F9FAFB;
+            color: #0F172A;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
+        .font-mono    { font-family: 'IBM Plex Mono', monospace; }
+        .ms           { font-family: 'Material Symbols Outlined', system-ui, sans-serif; font-size: 20px; line-height: 1; font-weight: 400; -webkit-user-select: none; user-select: none; }
+
+        /* ── Header ─────────────────────────────────────────── */
+        .app-header {
+            height: 48px;
+            flex-shrink: 0;
+            background: white;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+        .header-left  { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .header-divider { width: 1px; height: 16px; background: #E5E7EB; flex-shrink: 0; }
+
+        .btn-icon {
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; padding: 6px;
+            background: transparent; border: none; cursor: pointer;
+        }
+        .btn-icon:hover { background: #F1F5F9; }
+
+        .btn-secondary {
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; padding: 6px 16px;
+            background: white; border: 1px solid #D1D5DB;
+            cursor: pointer; font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-size: 14px; font-weight: 500; color: #0F172A;
+        }
+        .btn-secondary:hover { border-color: #94A3B8; }
+
+        .btn-primary {
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; padding: 6px 16px;
+            background: #0F172A; border: 1px solid #0F172A;
+            box-shadow: 2px 2px 0 rgba(15,23,42,0.15);
+            cursor: pointer; font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-size: 14px; font-weight: 500; color: white;
+        }
+        .btn-primary:hover { background: #1E293B; }
+
+        .badge {
+            display: inline-flex; align-items: center;
+            border-radius: 2px; padding: 2px 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px; line-height: 12px;
+        }
+        .badge-green { background: #16653414; border: 1px solid #16653429; color: #16A34A; }
+        .badge-blue  { background: #1D4ED814; border: 1px solid #1D4ED829; color: #1D4ED8; }
+        .badge-green-solid { background: #10B98114; border: 1px solid #10B98129; color: #10B981; }
+
+        /* ── Layout ──────────────────────────────────────────── */
+        .workspace { flex: 1; display: flex; overflow: hidden; position: relative; }
+
+        /* ── Left Sidebar ────────────────────────────────────── */
+        .sidebar-left {
+            width: 240px; flex-shrink: 0;
+            background: white; border-right: 1px solid #E5E7EB;
+            display: flex; flex-direction: column; z-index: 40;
+        }
+
+        .search-wrap {
+            padding: 16px; border-bottom: 1px solid #E5E7EB;
+        }
+        .search-inner {
+            position: relative; display: flex; align-items: center;
+        }
+        .search-inner .ms {
+            position: absolute; left: 8px; font-size: 18px; color: #94A3B8;
+        }
+        .search-inner input {
+            width: 100%; height: 34px; border-radius: 4px;
+            border: 1px solid #D1D5DB; padding: 0 12px 0 34px;
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            font-size: 13px; color: #0F172A; background: white; outline: none;
+        }
+        .search-inner input::placeholder { color: #94A3B8; }
+        .search-inner input:focus { border-color: #94A3B8; }
+
+        .node-list { flex: 1; overflow-y: auto; padding: 8px; }
+        .node-list::-webkit-scrollbar { display: none; }
+
+        .category-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px; cursor: pointer;
+        }
+        .category-header .ms { font-size: 16px; color: #94A3B8; }
+        .category-header span {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px; font-weight: 500;
+            color: #64748B; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+
+        .category-items { padding: 4px 8px 8px 24px; display: flex; flex-direction: column; gap: 6px; }
+
+        .palette-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px; border-radius: 4px;
+            background: white; border: 1px solid #E5E7EB;
+            box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+            cursor: grab;
+        }
+        .palette-item:hover { border-color: #94A3B8; }
+        .palette-item:active { cursor: grabbing; }
+        .palette-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .palette-item .label {
+            font-family: 'IBM Plex Sans', system-ui, sans-serif;
+            font-size: 13px; color: #111827; flex: 1;
+        }
+        .palette-item .drag-icon { font-size: 16px; color: #94A3B8; }
+
+        /* ── Canvas ──────────────────────────────────────────── */
+        .canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+
+        #drawflow {
+            width: 100%; height: 100%;
+            background-color: #F9FAFB;
+            background-image: radial-gradient(#D1D5DB 1.5px, transparent 1.5px);
+            background-size: 28px 28px;
+            position: relative;
+        }
+
+        /* Drawflow node base */
+        .drawflow .drawflow-node {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            padding: 0;
+            min-width: 220px;
+            box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .drawflow .drawflow-node.selected {
+            border-color: #94A3B8;
+            box-shadow: 0 12px 28px rgba(15,23,42,0.14);
+        }
+
+        /* Connectors */
+        .drawflow .drawflow-node .input,
+        .drawflow .drawflow-node .output {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #D1D5DB;
+            top: 50%; margin-top: -6px;
+        }
+        .drawflow .drawflow-node .input  { left: -6px; }
+        .drawflow .drawflow-node .output { right: -6px; }
+
+        /* Colored outputs per type */
+        .drawflow .drawflow-node.trigger-node .output { background: #0F172A; border-color: white; box-shadow: 0 0 8px rgba(15,23,42,0.35); }
+        .drawflow .drawflow-node.ai_extractor .output,
+        .drawflow .drawflow-node.lookup .output       { background: #8B5CF6; border-color: white; box-shadow: 0 0 8px rgba(139,92,246,0.4); }
+        .drawflow .drawflow-node.user_task .output,
+        .drawflow .drawflow-node.approval .output     { background: #F97316; border-color: white; box-shadow: 0 0 8px rgba(249,115,22,0.4); }
+        .drawflow .drawflow-node.condition .output    { background: #3B82F6; border-color: white; box-shadow: 0 0 8px rgba(59,130,246,0.4); }
+        .drawflow .drawflow-node.integration .output  { background: #10B981; border-color: white; box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+
+        /* Connections */
+        .drawflow .connection .main-path { stroke: #CBD5E1; stroke-width: 2px; }
+        .drawflow .connection .main-path:hover { stroke: #94A3B8; stroke-width: 3px; }
+
+        /* Zoom controls */
+        .zoom-controls {
+            position: absolute; bottom: 24px; left: 16px;
+            display: flex; gap: 6px; z-index: 30;
+        }
+        .zoom-btn {
+            display: flex; align-items: center; justify-content: center;
+            height: 32px; min-width: 32px; padding: 0 8px;
+            background: white; border: 1px solid #E5E7EB;
+            border-radius: 4px; box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px; color: #64748B;
+        }
+        .zoom-btn:hover { border-color: #94A3B8; }
+        .zoom-btn .ms { font-size: 16px; color: #64748B; }
+
+        /* ── Right Panel ──────────────────────────────────────── */
+        .panel-right {
+            width: 360px; flex-shrink: 0;
+            background: white; border-left: 1px solid #E5E7EB;
+            display: flex; flex-direction: column; z-index: 40;
+            position: absolute; right: 0; top: 0; bottom: 0;
+            transform: translateX(100%);
+            transition: transform 0.25s ease;
+            box-shadow: -6px 0 20px rgba(15,23,42,0.04);
+            overflow: hidden;
+        }
+        .panel-right.open { transform: translateX(0); }
+
+        .panel-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px; border-bottom: 1px solid #E5E7EB;
+            flex-shrink: 0;
+        }
+        .panel-header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .panel-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 6px;
+            border: 1px solid; flex-shrink: 0;
+        }
+        .panel-icon .ms { font-size: 18px; }
+
+        .panel-body {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .panel-body::-webkit-scrollbar { display: none; }
+
+        .panel-footer {
+            padding: 16px; border-top: 1px solid #E5E7EB;
+            background: white; flex-shrink: 0;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+
+        .section-label {
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600; font-size: 14px; line-height: 20px; color: #0F172A;
+        }
+        .field-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px; line-height: 12px;
+            color: #64748B; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .field-value {
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600; font-size: 13px; line-height: 16px; color: #0F172A;
+        }
+
+        .select-field {
+            display: flex; align-items: center; justify-content: space-between;
+            border-radius: 6px; padding: 10px 12px;
+            background: white; border: 1px solid #D1D5DB;
+        }
+        .select-field .ms { font-size: 16px; color: #94A3B8; }
+
+        .divider { height: 1px; background: #E5E7EB; flex-shrink: 0; }
+
+        .choice-card {
+            display: flex; align-items: flex-start; gap: 10px;
+            border-radius: 6px; padding: 12px;
+            background: white; border: 1px solid #D1D5DB;
+        }
+        .radio-dot {
+            width: 16px; height: 16px; border-radius: 50%;
+            flex-shrink: 0; margin-top: 2px;
+        }
+        .radio-dot.selected { background: #1D4ED8; border: 1px solid #1D4ED8; box-shadow: white 0 0 0 3px inset; }
+        .radio-dot.unselected { background: white; border: 1px solid #D1D5DB; }
+        .choice-title { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; font-size: 13px; color: #0F172A; }
+        .choice-desc  { font-size: 12px; line-height: 1.45; color: #64748B; margin-top: 2px; }
+
+        .info-card {
+            display: flex; flex-direction: column; gap: 6px;
+            border-radius: 6px; padding: 12px;
+            background: #FAFAFA; border: 1px solid #E5E7EB;
+        }
+        .info-card-header { display: flex; align-items: center; gap: 8px; }
+        .info-card .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .info-card-title { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; font-size: 13px; color: #0F172A; }
+        .info-card-body  { font-size: 12px; line-height: 1.5; color: #64748B; }
+
+        .btn-save-config {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; width: 100%; border-radius: 6px; padding: 12px;
+            background: #0F172A; border: none; cursor: pointer;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600; font-size: 14px; color: white;
+        }
+        .btn-save-config:hover { background: #1E293B; }
+        .btn-save-config .ms { font-size: 18px; color: white; font-weight: 600; }
+
+        .btn-delete {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; border-radius: 6px; padding: 10px;
+            background: #FEF2F2; border: 1px solid #FECACA; cursor: pointer;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 500; font-size: 12px; color: #DC2626;
+        }
+        .btn-delete:hover { background: #FEE2E2; }
+
+        /* Name input in panel */
+        .name-input {
+            display: flex; align-items: center; justify-content: space-between;
+            border-radius: 6px; padding: 10px 12px;
+            background: white; border: 1px solid #D1D5DB;
+        }
+        .name-input input {
+            flex: 1; background: transparent; border: none; outline: none;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            font-weight: 600; font-size: 13px; color: #0F172A;
+        }
+
+        /* Webhook input */
+        .mono-input {
+            display: flex; align-items: center;
+            border-radius: 6px; padding: 10px 12px;
+            background: white; border: 1px solid #D1D5DB;
+        }
+        .mono-input input {
+            flex: 1; background: transparent; border: none; outline: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px; color: #0F172A;
+        }
+        .mono-input input::placeholder { color: #94A3B8; }
+
+        /* Range slider */
+        .range-wrap { display: flex; flex-direction: column; gap: 10px; }
+        .range-header { display: flex; justify-content: space-between; align-items: center; }
+        input[type="range"] {
+            width: 100%; height: 4px; border-radius: 4px;
+            background: #E2E8F0; appearance: none; outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none; width: 14px; height: 14px;
+            border-radius: 50%; background: #8B5CF6;
+            border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ──────────────────────────────────────────────── -->
+    <header class="app-header">
+        <div class="header-left">
+            <a href="workflows.html" class="btn-icon">
+                <span class="ms" style="font-size:20px;color:#94A3B8;">arrow_back</span>
+            </a>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span class="font-display" style="font-weight:600;font-size:14px;color:#0F172A;">Invoice AP Cycle</span>
+                <span class="badge badge-green">Active</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="btn-icon" title="Undo">
+                <span class="ms" style="font-size:18px;color:#94A3B8;">undo</span>
+            </button>
+            <button class="btn-icon" title="Redo">
+                <span class="ms" style="font-size:18px;color:#94A3B8;">redo</span>
+            </button>
+            <div class="header-divider"></div>
+            <button class="btn-secondary">Save Draft</button>
+            <button class="btn-primary">Deploy Workflow</button>
+        </div>
+    </header>
+
+    <!-- ── Workspace ──────────────────────────────────────────── -->
+    <div class="workspace">
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left">
+            <div class="search-wrap">
+                <div class="search-inner">
+                    <span class="ms">search</span>
+                    <input type="text" placeholder="Search nodes…">
+                </div>
+            </div>
+
+            <div class="node-list">
+
+                <!-- Proprietary AI -->
+                <div>
+                    <div class="category-header">
+                        <span class="ms">chevron_right</span>
+                        <span>Proprietary AI</span>
+                    </div>
+                    <div class="category-items">
+                        <div draggable="true" ondragstart="drag(event)" data-node="ai_extractor" class="palette-item">
+                            <span class="dot" style="background:#8B5CF6;"></span>
+                            <span class="label">AI Extractor</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                        <div draggable="true" ondragstart="drag(event)" data-node="lookup" class="palette-item">
+                            <span class="dot" style="background:#8B5CF6;"></span>
+                            <span class="label">AI Classification</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Group -->
+                <div>
+                    <div class="category-header">
+                        <span class="ms">chevron_right</span>
+                        <span>User Group</span>
+                    </div>
+                    <div class="category-items">
+                        <div draggable="true" ondragstart="drag(event)" data-node="user_task" class="palette-item">
+                            <span class="dot" style="background:#F97316;"></span>
+                            <span class="label">Data Entry / Correction</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                        <div draggable="true" ondragstart="drag(event)" data-node="approval" class="palette-item">
+                            <span class="dot" style="background:#F97316;"></span>
+                            <span class="label">Approval Node</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Tools -->
+                <div>
+                    <div class="category-header">
+                        <span class="ms">chevron_right</span>
+                        <span>Basic Tools</span>
+                    </div>
+                    <div class="category-items">
+                        <div draggable="true" ondragstart="drag(event)" data-node="condition" class="palette-item">
+                            <span class="dot" style="background:#3B82F6;"></span>
+                            <span class="label">If-else</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration -->
+                <div>
+                    <div class="category-header">
+                        <span class="ms">chevron_right</span>
+                        <span>Integration</span>
+                    </div>
+                    <div class="category-items">
+                        <div draggable="true" ondragstart="drag(event)" data-node="integration" class="palette-item">
+                            <span class="dot" style="background:#10B981;"></span>
+                            <span class="label">Webhook</span>
+                            <span class="ms drag-icon">drag_indicator</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- Canvas -->
+        <main class="canvas-wrap">
+            <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="editor.zoom_out()">
+                        <span class="ms">remove</span>
+                    </button>
+                    <button class="zoom-btn" onclick="editor.zoom_reset()" id="zoom-label">100%</button>
+                    <button class="zoom-btn" onclick="editor.zoom_in()">
+                        <span class="ms">add</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Panel -->
+        <aside id="properties-panel" class="panel-right">
+
+            <div class="panel-header">
+                <div class="panel-header-left">
+                    <div id="prop-icon" class="panel-icon" style="background:#0F172A14;border-color:#0F172A29;">
+                        <span id="prop-icon-glyph" class="ms" style="color:#0F172A;">settings</span>
+                    </div>
+                    <div>
+                        <div class="field-label" id="prop-category">NODE TYPE</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="closePanel()">
+                    <span class="ms" style="font-size:20px;color:#94A3B8;">close</span>
+                </button>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- Display Name -->
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                        <span class="section-label">Display Name</span>
+                    </div>
+                    <div class="name-input">
+                        <input type="text" id="prop-name" value="Stage Configuration">
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- AI Extractor Fields -->
+                <div id="ai-extractor-fields" style="display:none;flex-direction:column;gap:20px;">
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                            <span class="section-label">IDP Schema</span>
+                            <span class="badge" style="background:#8B5CF614;border:1px solid #8B5CF629;color:#8B5CF6;">Proprietary AI</span>
+                        </div>
+                        <div class="select-field">
+                            <div>
+                                <div class="field-label">Schema</div>
+                                <div class="field-value" style="margin-top:2px;">Invoice_Standard_v2</div>
+                            </div>
+                            <span class="ms">expand_more</span>
+                        </div>
+                    </div>
+                    <div class="range-wrap">
+                        <div class="range-header">
+                            <span class="section-label">Auto-Advance Threshold</span>
+                            <span class="font-mono" style="font-size:10px;color:#64748B;">85%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="85">
+                    </div>
+                    <div class="divider"></div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="dot" style="background:#8B5CF6;width:8px;height:8px;border-radius:50%;flex-shrink:0;"></span>
+                            <span class="info-card-title">AI Extraction</span>
+                        </div>
+                        <p class="info-card-body">Uses the selected IDP schema to extract structured fields from documents automatically.</p>
+                    </div>
+                </div>
+
+                <!-- User Task / Approval Fields -->
+                <div id="user-task-fields" style="display:none;flex-direction:column;gap:20px;">
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                            <span class="section-label">Approval Routing</span>
+                            <span class="badge badge-blue">User Group</span>
+                        </div>
+                        <p style="font-size:12px;line-height:1.5;color:#64748B;">Route approvals to a user group first, then map the blast target to a specific user or another user group.</p>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <div class="choice-card">
+                                <div class="radio-dot selected"></div>
+                                <div>
+                                    <div class="choice-title">Blast to specific user</div>
+                                    <p class="choice-desc">Send the approval task to one named user after the group approval step.</p>
+                                </div>
+                            </div>
+                            <div class="choice-card">
+                                <div class="radio-dot unselected"></div>
+                                <div>
+                                    <div class="choice-title">Blast to user group</div>
+                                    <p class="choice-desc">Forward the approval to the next user group in the workflow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                            <span class="section-label">Assignee Mapping</span>
+                            <div style="display:flex;align-items:center;gap:4px;">
+                                <span class="ms" style="font-size:14px;color:#1D4ED8;">swap_horiz</span>
+                                <span class="font-mono" style="font-size:10px;color:#1D4ED8;">JSON</span>
+                            </div>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <div class="select-field">
+                                <div>
+                                    <div class="field-label">Approval Group</div>
+                                    <div class="field-value" style="margin-top:2px;">AP Team</div>
+                                </div>
+                                <span class="ms">expand_more</span>
+                            </div>
+                            <div class="select-field">
+                                <div>
+                                    <div class="field-label">Blast Target</div>
+                                    <div class="field-value" style="margin-top:2px;">Finance Ops Lead</div>
+                                </div>
+                                <span class="ms">expand_more</span>
+                            </div>
+                        </div>
+                        <p style="font-size:12px;line-height:1.5;color:#64748B;">The approval node can route to a specific user or fan out to a user group, depending on the selected mapping.</p>
+                    </div>
+                    <div class="divider"></div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span class="section-label">Routing Notes</span>
+                            <span class="font-mono" style="font-size:10px;color:#64748B;">1 rule</span>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-header">
+                                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#F97316;flex-shrink:0;"></span>
+                                <span class="info-card-title">User group approval</span>
+                            </div>
+                            <p class="info-card-body">Use this node when approvals must be collected from a group before blasting to a specific user or another group.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration Fields -->
+                <div id="integration-fields" style="display:none;flex-direction:column;gap:20px;">
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                            <span class="section-label">Webhook Endpoint</span>
+                            <span class="badge badge-green-solid">Integration</span>
+                        </div>
+                        <div class="mono-input">
+                            <input type="text" placeholder="https://api.erp.com/v1/sync">
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10B981;flex-shrink:0;"></span>
+                            <span class="info-card-title">Webhook POST</span>
+                        </div>
+                        <p class="info-card-body">Sends a POST request to the specified endpoint when this node is reached in the workflow.</p>
+                    </div>
+                </div>
+
+                <!-- Condition Fields -->
+                <div id="condition-fields" style="display:none;flex-direction:column;gap:20px;">
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                            <span class="section-label">Branch Logic</span>
+                            <span class="badge" style="background:#3B82F614;border:1px solid #3B82F629;color:#3B82F6;">Basic Tools</span>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <div class="choice-card">
+                                <div class="radio-dot" style="background:#3B82F6;border-color:#3B82F6;box-shadow:white 0 0 0 3px inset;"></div>
+                                <div>
+                                    <div class="choice-title">Confidence Threshold</div>
+                                    <p class="choice-desc">Branch based on AI confidence score from the extraction stage.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></span>
+                            <span class="info-card-title">If-Else Flow</span>
+                        </div>
+                        <p class="info-card-body">Routes documents down different paths based on the evaluated condition. Outputs connect to separate branches.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn-save-config" onclick="applyChanges()">
+                    <span class="ms">check</span>
+                    Save Configuration
+                </button>
+                <button class="btn-delete" onclick="deleteNode()">Delete Stage</button>
+            </div>
+        </aside>
+
+    </div><!-- end workspace -->
+
+    <script>
+        const container = document.getElementById('drawflow');
+        const editor = new Drawflow(container);
+        editor.start();
+
+        const NODE_CONFIG = {
+            'trigger':      { color: '#0F172A', icon: 'play_arrow', label: 'Manual Initiation', meta: 'Start: New Case Button',     category: 'TRIGGER',       outputs: 1 },
+            'ai_extractor': { color: '#8B5CF6', icon: 'auto_awesome', label: 'AI Extractor',       meta: 'Schema: Invoice_Standard_v2', category: 'PROPRIETARY AI', outputs: 1 },
+            'lookup':       { color: '#8B5CF6', icon: 'auto_awesome', label: 'AI Classification',  meta: 'Model: Classification v3',   category: 'PROPRIETARY AI', outputs: 1 },
+            'user_task':    { color: '#F97316', icon: 'group',        label: 'Data Entry',          meta: 'Group: AP Team',              category: 'USER GROUP',    outputs: 1 },
+            'approval':     { color: '#F97316', icon: 'group',        label: 'Approval Node',       meta: 'Mapping: User group approval',category: 'USER GROUP',    outputs: 1 },
+            'condition':    { color: '#3B82F6', icon: 'device_hub',   label: 'If-Else',             meta: 'Logic: Confidence Check',     category: 'BASIC TOOLS',   outputs: 2 },
+            'integration':  { color: '#10B981', icon: 'webhook',      label: 'Webhook',             meta: 'POST: ERP Webhook',           category: 'INTEGRATION',   outputs: 1 },
+        };
+
+        function buildNodeHTML(type, label, meta) {
+            const cfg = NODE_CONFIG[type] || NODE_CONFIG['trigger'];
+            return `
+                <div style="display:flex;flex-direction:column;font-family:'IBM Plex Sans',system-ui,sans-serif;">
+                    <div style="height:24px;display:flex;align-items:center;padding:0 10px;background:${cfg.color};border-radius:5px 5px 0 0;">
+                        <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:10px;line-height:12px;letter-spacing:0.06em;text-transform:uppercase;color:white;flex:1;">${label}</span>
+                        <span style="font-family:'Material Symbols Outlined',system-ui,sans-serif;font-size:16px;color:white;user-select:none;">${cfg.icon}</span>
+                    </div>
+                    <div style="padding:14px;">
+                        <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:600;font-size:14px;line-height:20px;color:#0F172A;">${label}</div>
+                        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:16px;color:#64748B;margin-top:2px;">${meta}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Seed canvas with trigger node
+        editor.addNode('trigger', 0, 1, 60, 160, 'trigger-node', {}, buildNodeHTML('trigger', 'Manual Initiation', 'Start: New Case Button'));
+
+        // ── Drag & Drop ─────────────────────────────────────────
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) { ev.dataTransfer.setData("node", ev.currentTarget.getAttribute('data-node')); }
+        function drop(ev) {
+            ev.preventDefault();
+            const nodeType = ev.dataTransfer.getData("node");
+            const cfg = NODE_CONFIG[nodeType];
+            if (!cfg) return;
+
+            const rect = container.getBoundingClientRect();
+            const x = (ev.clientX - rect.left) / editor.zoom - editor.canvas_x / editor.zoom;
+            const y = (ev.clientY - rect.top)  / editor.zoom - editor.canvas_y / editor.zoom;
+
+            editor.addNode(nodeType, 1, cfg.outputs, x, y, nodeType, {}, buildNodeHTML(nodeType, cfg.label, cfg.meta));
+        }
+
+        // ── Panel ───────────────────────────────────────────────
+        let selectedNodeId = null;
+        const panel = document.getElementById('properties-panel');
+
+        const ICON_THEME = {
+            'trigger':      { bg: '#0F172A14', border: '#0F172A29', color: '#0F172A',  icon: 'play_arrow' },
+            'ai_extractor': { bg: '#8B5CF614', border: '#8B5CF629', color: '#8B5CF6',  icon: 'auto_awesome' },
+            'lookup':       { bg: '#8B5CF614', border: '#8B5CF629', color: '#8B5CF6',  icon: 'auto_awesome' },
+            'user_task':    { bg: '#F9731614', border: '#F9731629', color: '#F97316',  icon: 'group' },
+            'approval':     { bg: '#F9731614', border: '#F9731629', color: '#F97316',  icon: 'group' },
+            'condition':    { bg: '#3B82F614', border: '#3B82F629', color: '#3B82F6',  icon: 'device_hub' },
+            'integration':  { bg: '#10B98114', border: '#10B98129', color: '#10B981',  icon: 'webhook' },
+        };
+
+        editor.on('nodeSelected', function(id) {
+            selectedNodeId = id;
+            const data = editor.getNodeFromId(id);
+            const type = data.name === 'trigger-node' ? 'trigger' : data.name;
+            const cfg  = NODE_CONFIG[type] || NODE_CONFIG['trigger'];
+            const theme = ICON_THEME[type] || ICON_THEME['trigger'];
+
+            // Icon
+            const iconBox = document.getElementById('prop-icon');
+            iconBox.style.background    = theme.bg;
+            iconBox.style.borderColor   = theme.border;
+            document.getElementById('prop-icon-glyph').style.color    = theme.color;
+            document.getElementById('prop-icon-glyph').textContent     = theme.icon;
+
+            document.getElementById('prop-category').textContent = cfg.category + ' — ' + cfg.label;
+            document.getElementById('prop-name').value = cfg.label;
+
+            // Hide all field groups
+            ['ai-extractor-fields','user-task-fields','integration-fields','condition-fields'].forEach(fid => {
+                document.getElementById(fid).style.display = 'none';
+            });
+
+            if (type === 'ai_extractor' || type === 'lookup') {
+                document.getElementById('ai-extractor-fields').style.display = 'flex';
+            } else if (type === 'user_task' || type === 'approval') {
+                document.getElementById('user-task-fields').style.display = 'flex';
+            } else if (type === 'integration') {
+                document.getElementById('integration-fields').style.display = 'flex';
+            } else if (type === 'condition') {
+                document.getElementById('condition-fields').style.display = 'flex';
+            }
+
+            panel.classList.add('open');
+        });
+
+        editor.on('nodeUnselected', () => {
+            panel.classList.remove('open');
+            selectedNodeId = null;
+        });
+
+        function closePanel() {
+            panel.classList.remove('open');
+            selectedNodeId = null;
+        }
+
+        function deleteNode() {
+            if (selectedNodeId) {
+                editor.removeNodeId('node-' + selectedNodeId);
+                closePanel();
+            }
+        }
+
+        function applyChanges() {
+            closePanel();
+        }
+    </script>
+</body>
+</html>

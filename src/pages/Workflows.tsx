@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
-import { Search, ChevronDown, ListFilter, Plus, ArrowRight, Copy, Pencil, Trash2 } from "lucide-react";
+import { Search, ChevronDown, ListFilter, Plus, ArrowRight, Copy, Pencil, Trash2, Workflow } from "lucide-react";
 import { Switch } from "../components/Switch";
+import { Link } from "react-router-dom";
 
 const MOCK_WORKFLOWS = [
     {
@@ -83,6 +84,13 @@ export function Workflows() {
                         </div>
 
                         <div className="flex flex-row items-center gap-4">
+                            <Link
+                                to="/workflows/builder"
+                                className="inline-flex h-10 items-center gap-2 rounded border border-border bg-white px-4 text-sm font-semibold text-text-primary transition-colors hover:bg-surface"
+                            >
+                                <Workflow className="h-4 w-4" />
+                                OPEN BUILDER
+                            </Link>
                             <div className="relative">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
                                 <input

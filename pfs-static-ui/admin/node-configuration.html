@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Node Configuration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #84cc16;
+            --color-primary-hover: #65a30d;
+            --color-primary-light: #f7fee7;
+            --color-background: #ffffff;
+            --color-surface: #f5f5f5;
+            --color-text-primary: #374151;
+            --color-text-secondary: #6b7280;
+            --color-border: #e5e7eb;
+            --color-success: #84cc16;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+    <div class="flex h-full w-64 flex-col border-r border-border bg-background shrink-0">
+        <div class="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <div class="flex items-center">
+                <img src="/logo/pfs-logo-h-4light.png" alt="PFS logo" class="h-8 w-auto object-contain" />
+            </div>
+        </div>
+
+        <div class="flex flex-1 flex-col overflow-y-auto px-3 py-6">
+            <nav class="flex-1 space-y-1">
+                <a href="dashboard.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    Dashboard
+                </a>
+                <a href="schema-library.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                    Schema Manager
+                </a>
+                <a href="training-files.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"/><path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8"/><path d="M15 2v5h5"/></svg>
+                    Training Files
+                </a>
+                <a href="users-roles.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Users & Roles
+                </a>
+                <a href="workflows.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                    Workflows
+                </a>
+                <a href="deployments.html" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    Deployments
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border p-4">
+            <div class="flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-primary">JS</div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-text-primary">Jane Smith</span>
+                    <span class="text-xs text-text-secondary">Admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 flex flex-col min-w-0 bg-[#f9fafb]">
+        <header class="flex h-12 shrink-0 items-center justify-between border-b border-border bg-background px-4">
+            <div class="flex items-center gap-3">
+                <button class="w-5 h-5 flex items-center justify-center text-text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-lg font-semibold tracking-tight text-[#111827]">Node Configuration</h1>
+                    <span class="inline-flex items-center rounded border border-[#cde8d8] bg-[#ecfdf5] px-2 py-0.5 text-[10px] font-medium text-[#6b7280]">Active</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="w-8 h-8 flex items-center justify-center text-[#374151]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 7 3-3 3 3"/><path d="M6 4v7a4 4 0 0 0 4 4h11"/></svg>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center text-[#374151]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 17-3 3-3-3"/><path d="M18 20v-7a4 4 0 0 0-4-4H3"/></svg>
+                </button>
+                <div class="h-4 w-px bg-border"></div>
+                <button class="h-8 rounded border border-[#d1d5db] bg-white px-4 text-sm font-medium text-[#111827]">Save Draft</button>
+                <button class="h-8 rounded border border-[#1f2937] bg-[#111827] px-4 text-sm font-medium text-white shadow-[0_0_0_1px_rgba(132,204,22,0.7)]">Deploy Workflow</button>
+            </div>
+        </header>
+
+        <main class="relative flex-1 overflow-hidden bg-[#f9fafb]">
+            <div class="absolute inset-y-0 left-0 w-60 border-r border-border bg-white">
+                <div class="h-16 border-b border-border px-4 flex items-center">
+                    <div class="flex w-full items-center gap-3 rounded border border-border bg-white px-3 py-2">
+                        <div class="h-4 w-4 text-[#9ca3af]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-6 space-y-6 text-sm">
+                    <div>
+                        <div class="mb-3 text-[10px] uppercase tracking-[0.24em] text-[#6b7280]">Proprietary AI</div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                                <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#8b5cf6]"></span><span>AI Extractor</span></div>
+                                <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                            </div>
+                            <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                                <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#8b5cf6]"></span><span>AI Classification</span></div>
+                                <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-3 text-[10px] uppercase tracking-[0.24em] text-[#6b7280]">User Group</div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                                <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#f97316]"></span><span>Data Entry/Correction</span></div>
+                                <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                            </div>
+                            <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                                <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#f97316]"></span><span>Approval Node</span></div>
+                                <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-3 text-[10px] uppercase tracking-[0.24em] text-[#6b7280]">Basic Tools</div>
+                        <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                            <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#3b82f6]"></span><span>If-else</span></div>
+                            <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-3 text-[10px] uppercase tracking-[0.24em] text-[#6b7280]">Integration</div>
+                        <div class="flex items-center justify-between rounded border border-border bg-[#fafafa] px-3 py-2 shadow-sm">
+                            <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#10b981]"></span><span>Webhook</span></div>
+                            <svg class="h-4 w-4 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute inset-y-0 left-60 right-[360px] bg-[#f9fafb]">
+                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] rounded-lg border border-border bg-white shadow-[0_6px_20px_rgba(15,23,42,0.08)]">
+                    <div class="flex items-center justify-between rounded-t-lg bg-[#f97316] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white">
+                        <span>Approval Node</span>
+                        <span>👥</span>
+                    </div>
+                    <div class="p-3">
+                        <div class="text-[16px] font-semibold text-[#111827]">Approval Routing</div>
+                        <div class="mt-1 text-[13px] text-[#6b7280]">Mapping: User group approval</div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="absolute inset-y-0 right-0 w-[360px] border-l border-border bg-white">
+                <div class="flex h-16 items-center justify-between border-b border-border px-4">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-9 w-9 items-center justify-center rounded bg-[#fff7ed] text-[#f97316]">👥</div>
+                        <div class="text-[11px] uppercase tracking-[0.24em] text-[#6b7280]">User Group Approval</div>
+                    </div>
+                    <button class="text-2xl text-[#9ca3af]">×</button>
+                </div>
+
+                <div class="h-[calc(100%-64px)] overflow-y-auto px-4 py-6">
+                    <div class="space-y-6">
+                        <section class="space-y-3">
+                            <div class="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#111827]">
+                                <span class="h-2 w-2 bg-[#f97316]"></span>
+                                Approval Routing
+                            </div>
+                            <p class="text-sm leading-6 text-[#6b7280]">Route approvals to a user group first, then map the blast target to a specific user or another user group.</p>
+                            <div class="grid grid-cols-2 rounded border border-border bg-white text-sm">
+                                <button class="rounded-l bg-[#111827] px-3 py-2 text-white">Blast to specific user</button>
+                                <button class="rounded-r border-l border-border px-3 py-2 text-[#6b7280]">Blast to user group</button>
+                            </div>
+                        </section>
+
+                        <section class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#111827]">
+                                    <span class="h-2 w-2 bg-[#f97316]"></span>
+                                    Assignee Mapping
+                                </div>
+                                <div class="text-xs text-[#6b7280]">↔ JSON</div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="rounded border border-border px-3 py-3">
+                                    <div class="text-[10px] uppercase tracking-[0.24em] text-[#9ca3af]">Approval Group</div>
+                                    <div class="mt-1 text-[15px] font-medium text-[#111827]">AP Team</div>
+                                </div>
+                                <div class="rounded border border-border px-3 py-3">
+                                    <div class="text-[10px] uppercase tracking-[0.24em] text-[#9ca3af]">Blast Target</div>
+                                    <div class="mt-1 text-[15px] font-medium text-[#111827]">Finance Ops Lead</div>
+                                </div>
+                            </div>
+                            <p class="text-sm leading-6 text-[#6b7280]">The approval node can route to a specific user or fan out to a user group, depending on the selected mapping.</p>
+                        </section>
+
+                        <section class="space-y-3">
+                            <div class="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#111827]">
+                                <span class="h-2 w-2 bg-[#f97316]"></span>
+                                Routing Notes
+                            </div>
+                            <div class="rounded border border-border bg-[#fafafa] p-3">
+                                <div class="text-sm font-medium text-[#f97316]">● User group approval</div>
+                                <p class="mt-2 text-sm leading-6 text-[#6b7280]">Use this node when approvals must be collected from a group before blasting to a specific user or another group.</p>
+                            </div>
+                        </section>
+
+                        <div class="pt-2">
+                            <button class="w-full rounded bg-[#111827] px-4 py-3 text-sm font-medium text-white shadow-[0_0_0_1px_rgba(132,204,22,0.7)]">✓ Save Configuration</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+</body>
+
+</html>

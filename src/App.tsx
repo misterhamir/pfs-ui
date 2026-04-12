@@ -8,6 +8,7 @@ import { Workflows } from "./pages/Workflows";
 import { Deployments } from "./pages/Deployments";
 import { SchemaDetail } from "./pages/SchemaDetail";
 import { CreateSchema } from "./pages/CreateSchema";
+import { WorkflowBuilder } from "./pages/WorkflowBuilder";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/training-files" element={<TrainingFiles />} />
           <Route path="/users" element={<UsersRoles />} />
           <Route path="/workflows" element={<Workflows />} />
+          <Route path="/workflows/builder" element={<WorkflowBuilder />} />
           <Route path="/deployments" element={<Deployments />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

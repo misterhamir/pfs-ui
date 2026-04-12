@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Schema Library</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #031634;
+            --color-primary-hover: #1A2B4A;
+            --color-primary-light: #f2f4f6;
+            --color-background: #f8f9fb;
+            --color-surface: #f2f4f6;
+            --color-text-primary: #031634;
+            --color-text-secondary: #44474e;
+            --color-border: #e1e2e4;
+            --color-success: #415e92;
+            --color-warning: #4e5e80;
+            --color-error: #ba1a1a;
+
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <div class="flex h-full w-64 flex-col border-r border-border bg-background shrink-0">
+        <div class="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="../pfs-logo-h-4light.png" alt="PFS logo" class="h-8 w-auto object-contain" />
+            </div>
+        </div>
+
+        <div class="flex flex-1 flex-col overflow-y-auto px-3 py-6">
+            <nav class="flex-1 space-y-1">
+                <a href="dashboard.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="schema-library.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors bg-primary-light text-primary border-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" x2="8" y1="13" y2="13" />
+                        <line x1="16" x2="8" y1="17" y2="17" />
+                        <line x1="10" x2="8" y1="9" y2="9" />
+                    </svg>
+                    Schema Manager
+                </a>
+                <a href="training-files.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z" />
+                        <path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8" />
+                        <path d="M15 2v5h5" />
+                    </svg>
+                    Training Files
+                </a>
+                <a href="users-roles.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Users & Roles
+                </a>
+                <a href="workflows.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="16" y="16" width="6" height="6" rx="1" />
+                        <rect x="2" y="16" width="6" height="6" rx="1" />
+                        <rect x="9" y="2" width="6" height="6" rx="1" />
+                        <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+                        <path d="M12 12V8" />
+                    </svg>
+                    Workflows
+                </a>
+                <a href="deployments.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                        <path
+                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                    </svg>
+                    Deployments
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border p-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-9 w-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-primary">
+                    JS
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-text-primary">Jane Smith</span>
+                    <span class="text-xs text-text-secondary">Admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 bg-[#f9fafb]">
+        <!-- Header -->
+        <header class="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-8">
+            <div class="flex items-center">
+                <h1 class="text-lg font-bold uppercase tracking-wide text-text-primary drop-shadow-sm">
+                    SCHEMA LIBRARY
+                </h1>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+                <!-- Top Bar Actions -->
+                <div class="flex items-center justify-between pb-4 border-b border-border/60">
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-text-secondary font-medium text-xs uppercase tracking-wider">Filter
+                                By:</span>
+                            <div
+                                class="flex items-center border border-border bg-white rounded flex-row gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface">
+                                Status: All
+                                <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                            <div
+                                class="flex items-center border border-border bg-white rounded flex-row gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface">
+                                Type: Finance
+                                <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row items-center gap-4">
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.3-4.3" />
+                            </svg>
+                            <input type="text" placeholder="Search models..."
+                                class="pl-9 pr-4 py-2 border border-border rounded w-64 text-sm focus:outline-none focus:ring-1 focus:ring-primary h-10" />
+                        </div>
+                        <a href="create-schema-step1.html"
+                            class="bg-primary hover:bg-primary-hover text-white flex items-center gap-2 px-5 font-bold tracking-wide h-10 text-sm transition-colors rounded">
+                            <svg class="w-4 h-4" stroke-width="3" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M5 12h14" />
+                                <path d="M12 5v14" />
+                            </svg>
+                            CREATE NEW SCHEMA
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sorting / Meta row -->
+                <div class="flex justify-between items-center text-sm text-text-secondary">
+                    <div>Showing <span class="font-bold text-text-primary">1-6</span> of 24 schemas</div>
+                    <div class="flex items-center gap-1.5 cursor-pointer">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 6h18" />
+                            <path d="M7 12h10" />
+                            <path d="M10 18h4" />
+                        </svg>
+                        Sort: Last Modified
+                    </div>
+                </div>
+
+                <!-- Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
+                    <!-- Schema 1 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">Invoice_Standard_v2</h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-primary"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_8829_F</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Invoice
+                                    #</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Date</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Total
+                                    Amount</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Vendor
+                                    Name</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Line
+                                    Items (Table)</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v2.4
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">ACTIVE</span>
+                                <!-- Switch Active -->
+                                <button type="button" role="switch" aria-checked="true"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="checked">
+                                    <span data-state="checked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schema 2 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">Receipt_Thermal_POS</h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-border"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_1021_R</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Transaction
+                                    Time</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Tax
+                                    ID</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Subtotal</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v1.0
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">INACTIVE</span>
+                                <!-- Switch Inactive -->
+                                <button type="button" role="switch" aria-checked="false"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="unchecked">
+                                    <span data-state="unchecked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schema 3 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">Bill_of_Lading_Intl</h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-primary"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_5592_L</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Carrier
+                                    Name</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Gross
+                                    Weight</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Signatory</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Port
+                                    of Loading</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Consignee</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v3.4
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">ACTIVE</span>
+                                <button type="button" role="switch" aria-checked="true"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="checked">
+                                    <span data-state="checked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schema 4 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">Medical_Claim_Form_CMS1500
+                            </h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-primary"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_3310_M</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Patient
+                                    Name</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Policy
+                                    Number</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Diagnosis
+                                    Code</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Service
+                                    Date</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v1.8
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">ACTIVE</span>
+                                <button type="button" role="switch" aria-checked="true"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="checked">
+                                    <span data-state="checked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schema 5 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">Bank_Statement_Multi</h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-border"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_0092_B</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Account
+                                    Holder</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Opening
+                                    Bal</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Closing
+                                    Bal</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Transaction
+                                    List</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v0.9 (Beta)
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">INACTIVE</span>
+                                <button type="button" role="switch" aria-checked="false"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="unchecked">
+                                    <span data-state="unchecked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schema 6 -->
+                    <div
+                        class="flex flex-col bg-white rounded-lg border border-border shadow-sm p-5 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-text-primary tracking-tight">ID_Passport_MRZ</h3>
+                            <div class="w-2 h-2 rounded-full mt-1.5 bg-primary"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono tracking-wider mb-6">ID: SCH_9110_I</p>
+
+                        <div class="mb-4">
+                            <p
+                                class="text-xs font-semibold text-text-secondary tracking-widest uppercase mb-3 text-[10px]">
+                                Extraction Fields</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Surname</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Given
+                                    Names</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Passport
+                                    No</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">Nationality</span>
+                                <span
+                                    class="inline-flex items-center px-2 py-1 rounded bg-[#F1F3F5] text-text-primary text-xs font-mono">DOB</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
+                            <div class="flex flex-row items-center text-text-secondary text-xs gap-1.5">
+                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                v4.0
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-[10px] uppercase font-bold tracking-wider text-text-secondary">ACTIVE</span>
+                                <button type="button" role="switch" aria-checked="true"
+                                    class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200"
+                                    data-state="checked">
+                                    <span data-state="checked"
+                                        class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

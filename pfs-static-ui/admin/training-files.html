@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Training Files</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #031634;
+            --color-primary-hover: #1A2B4A;
+            --color-primary-light: #f2f4f6;
+            --color-background: #f8f9fb;
+            --color-surface: #f2f4f6;
+            --color-text-primary: #031634;
+            --color-text-secondary: #44474e;
+            --color-border: #e1e2e4;
+            --color-success: #415e92;
+            --color-warning: #4e5e80;
+            --color-error: #ba1a1a;
+
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <div class="flex h-full w-64 flex-col border-r border-border bg-background shrink-0">
+        <div class="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <div class="flex items-center">
+                <img src="../pfs-logo-h-4light.png" alt="PFS logo" class="h-8 w-auto object-contain" />
+            </div>
+        </div>
+
+        <div class="flex flex-1 flex-col overflow-y-auto px-3 py-6">
+            <nav class="flex-1 space-y-1">
+                <a href="dashboard.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="schema-library.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" x2="8" y1="13" y2="13" />
+                        <line x1="16" x2="8" y1="17" y2="17" />
+                        <line x1="10" x2="8" y1="9" y2="9" />
+                    </svg>
+                    Schema Manager
+                </a>
+                <a href="training-files.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors bg-primary-light text-primary border-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z" />
+                        <path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8" />
+                        <path d="M15 2v5h5" />
+                    </svg>
+                    Training Files
+                </a>
+                <a href="users-roles.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Users & Roles
+                </a>
+                <a href="workflows.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="16" y="16" width="6" height="6" rx="1" />
+                        <rect x="2" y="16" width="6" height="6" rx="1" />
+                        <rect x="9" y="2" width="6" height="6" rx="1" />
+                        <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+                        <path d="M12 12V8" />
+                    </svg>
+                    Workflows
+                </a>
+                <a href="deployments.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                        <path
+                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                    </svg>
+                    Deployments
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border p-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-9 w-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-primary">
+                    JS
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-text-primary">Jane Smith</span>
+                    <span class="text-xs text-text-secondary">Admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 bg-[#f9fafb]">
+        <!-- Header -->
+        <header class="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-8">
+            <div class="flex items-center">
+                <h1 class="text-lg font-bold uppercase tracking-wide text-text-primary drop-shadow-sm">
+                    TRAINING FILES
+                </h1>
+            </div>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto space-y-6">
+                <!-- Top Bar Actions -->
+                <div class="flex items-center justify-between pb-4 border-b border-border/60">
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-text-secondary font-medium text-xs uppercase tracking-wider">Filter
+                                By:</span>
+                            <div
+                                class="flex items-center border border-border bg-white rounded flex-row gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface">
+                                Schema: All
+                                <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                            <div
+                                class="flex items-center border border-border bg-white rounded flex-row gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface">
+                                Type: All
+                                <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24"
+                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row items-center gap-4">
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.3-4.3" />
+                            </svg>
+                            <input type="text" placeholder="Search files..."
+                                class="pl-9 pr-4 py-2 border border-border rounded w-64 text-sm focus:outline-none focus:ring-1 focus:ring-primary h-10" />
+                        </div>
+                        <button
+                            class="bg-primary hover:bg-primary-hover text-white flex items-center gap-2 px-5 font-bold tracking-wide h-10 text-sm transition-colors rounded">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" x2="12" y1="3" y2="15" />
+                            </svg>
+                            UPLOAD FILES
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sorting / Meta row -->
+                <div class="flex justify-between items-center text-sm text-text-secondary">
+                    <div>Showing <span class="font-bold text-text-primary">1-6</span> of 42 training files</div>
+                    <div class="flex items-center gap-1.5 cursor-pointer">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 6h18" />
+                            <path d="M7 12h10" />
+                            <path d="M10 18h4" />
+                        </svg>
+                        Sort: Upload Date
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+                    <table class="min-w-full divide-y divide-border">
+                        <thead class="bg-surface">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    File Name</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Type</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Associated Schema</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Pages</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Uploaded By</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Upload Date</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-border">
+                            <!-- File 1 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium text-text-primary">invoice_sample_001.pdf</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        PDF
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Invoice_Standard_v2
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    3
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Jane Smith
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-15
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- File 2 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium text-text-primary">receipt_thermal_002.jpg</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        Image
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Receipt_Thermal_POS
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    1
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    John Doe
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-14
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- File 3 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium text-text-primary">bill_of_lading_intl.pdf</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        PDF
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Bill_of_Lading_Intl
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    5
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Jane Smith
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-13
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- File 4 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium text-text-primary">medical_claim_form.pdf</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        PDF
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Medical_Claim_Form_CMS1500
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Sarah Wilson
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-12
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- File 5 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span
+                                            class="text-sm font-medium text-text-primary">bank_statement_jan.pdf</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        PDF
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Bank_Statement_Multi
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    4
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Jane Smith
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-11
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- File 6 -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" class="rounded border-border" />
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" x2="8" y1="13" y2="13" />
+                                            <line x1="16" x2="8" y1="17" y2="17" />
+                                            <line x1="10" x2="8" y1="9" y2="9" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-text-primary">passport_scan_001.jpg</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-light text-primary">
+                                        Image
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    ID_Passport_MRZ
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    1
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    Mike Johnson
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
+                                    2024-02-10
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-primary hover:bg-primary-light rounded transition-colors"
+                                            title="Preview">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-warning hover:bg-warning/10 rounded transition-colors"
+                                            title="Retest Schema">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                                <path d="M3 3v5h5" />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            class="p-1.5 text-text-secondary hover:text-error hover:bg-error/10 rounded transition-colors"
+                                            title="Delete">
+                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M3 6h18" />
+                                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                <line x1="10" x2="10" y1="11" y2="17" />
+                                                <line x1="14" x2="14" y1="11" y2="17" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

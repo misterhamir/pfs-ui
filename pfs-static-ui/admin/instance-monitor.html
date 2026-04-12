@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PebbleFlow IDP VHMI - Instance Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #031634;
+            --color-primary-hover: #1A2B4A;
+            --color-primary-light: #f2f4f6;
+            --color-background: #f8f9fb;
+            --color-surface: #f2f4f6;
+            --color-text-primary: #031634;
+            --color-text-secondary: #44474e;
+            --color-border: #e1e2e4;
+            --color-success: #415e92;
+            --color-warning: #4e5e80;
+            --color-error: #ba1a1a;
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --radius-DEFAULT: 8px;
+        }
+
+        @layer base {
+            body {
+                @apply bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#f9fafb] text-text-primary font-sans antialiased m-0 h-screen w-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <div class="flex h-full w-64 flex-col border-r border-border bg-background shrink-0">
+        <div class="flex h-16 shrink-0 items-center px-6 border-b border-border">
+            <div class="flex items-center">
+                <img src="../pfs-logo-h-4light.png" alt="PFS logo" class="h-8 w-auto object-contain" />
+            </div>
+        </div>
+
+        <div class="flex flex-1 flex-col overflow-y-auto px-3 py-6">
+            <nav class="flex-1 space-y-1">
+                <a href="dashboard.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    Dashboard
+                </a>
+                <a href="schema-library.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                    Schema Manager
+                </a>
+                <a href="training-files.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"/><path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8"/><path d="M15 2v5h5"/></svg>
+                    Training Files
+                </a>
+                <a href="users-roles.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Users & Roles
+                </a>
+
+                <!-- Workflows Group -->
+                <div class="pt-2">
+                    <p class="px-3 pb-1 text-[10px] font-semibold uppercase tracking-widest text-text-secondary/60">Workflows</p>
+                    <a href="workflows.html"
+                        class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                        <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                        Workflow Builder
+                    </a>
+                    <a href="instance-monitor.html"
+                        class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors bg-primary-light text-primary border-primary">
+                        <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+                        Instance Monitor
+                    </a>
+                </div>
+
+                <a href="deployments.html"
+                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full border-l-4 transition-colors border-transparent text-text-secondary hover:bg-surface hover:text-text-primary">
+                    <svg class="mr-3 h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    Deployments
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border p-4">
+            <div class="flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-primary">JS</div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium text-text-primary">Jane Smith</span>
+                    <span class="text-xs text-text-secondary">Admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col min-w-0 bg-[#f9fafb]">
+        <!-- Header -->
+        <header class="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-8">
+            <div class="flex items-center gap-3">
+                <h1 class="text-lg font-bold uppercase tracking-wide text-text-primary drop-shadow-sm">INSTANCE MONITOR</h1>
+                <span class="text-xs text-text-secondary font-medium bg-surface border border-border rounded px-2 py-0.5">All Workflows</span>
+            </div>
+            <a href="start-new-case.html"
+                class="bg-primary hover:bg-primary-hover text-white flex items-center gap-2 px-5 font-bold tracking-wide h-10 text-sm transition-colors rounded">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                START NEW CASE
+            </a>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto space-y-6">
+
+                <!-- Summary Stats -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="bg-white rounded-lg border border-border shadow-sm p-4">
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-text-secondary mb-1">Total Active</p>
+                        <p class="text-3xl font-bold text-text-primary">24</p>
+                        <p class="text-xs text-text-secondary mt-1">across 3 workflows</p>
+                    </div>
+                    <div class="bg-white rounded-lg border border-border shadow-sm p-4">
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-text-secondary mb-1">Pending Review</p>
+                        <p class="text-3xl font-bold text-warning">11</p>
+                        <p class="text-xs text-text-secondary mt-1">needs human action</p>
+                    </div>
+                    <div class="bg-white rounded-lg border border-border shadow-sm p-4">
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-text-secondary mb-1">Auto Processing</p>
+                        <p class="text-3xl font-bold text-primary">9</p>
+                        <p class="text-xs text-text-secondary mt-1">system running</p>
+                    </div>
+                    <div class="bg-white rounded-lg border border-border shadow-sm p-4 border-l-4 border-l-error">
+                        <p class="text-[10px] font-semibold uppercase tracking-widest text-error mb-1">Overdue</p>
+                        <p class="text-3xl font-bold text-error">3</p>
+                        <p class="text-xs text-text-secondary mt-1">past due date</p>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-text-secondary font-medium text-xs uppercase tracking-wider">Filter By:</span>
+                        <div class="flex items-center border border-border bg-white rounded gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface text-sm">
+                            Workflow: All
+                            <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="flex items-center border border-border bg-white rounded gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface text-sm">
+                            Status: All
+                            <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="flex items-center border border-border bg-white rounded gap-2 px-3 py-1.5 cursor-pointer hover:bg-surface text-sm">
+                            Assigned Group: All
+                            <svg class="w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" placeholder="Search cases..." class="pl-9 pr-4 py-2 border border-border rounded w-64 text-sm focus:outline-none focus:ring-1 focus:ring-primary h-10" />
+                    </div>
+                </div>
+
+                <!-- Meta row -->
+                <div class="flex justify-between items-center text-sm text-text-secondary">
+                    <div>Showing <span class="font-bold text-text-primary">1–8</span> of 24 instances</div>
+                    <div class="flex items-center gap-1.5 cursor-pointer hover:text-text-primary">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                        Sort: Due Date
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-border bg-surface text-left">
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Case ID</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Title</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Workflow</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Current Stage</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Status</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Assigned</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary">Due Date</th>
+                                <th class="px-4 py-3 text-[10px] font-semibold uppercase tracking-widest text-text-secondary"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+
+                            <!-- Overdue row -->
+                            <tr class="hover:bg-surface/50 transition-colors bg-red-50/40">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0418</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #4990 — PT Alam Raya</div>
+                                    <div class="text-xs text-text-secondary">PO #078 · Project Raya</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">Approval</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span>
+                                        ● In Review
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Finance Approvers</td>
+                                <td class="px-4 py-3">
+                                    <span class="text-error font-medium text-xs flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+                                        Apr 08
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">Open →</a>
+                                        <button class="text-xs text-text-secondary hover:text-text-primary border border-border rounded px-2 py-0.5 hover:bg-surface">Reassign</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Overdue row 2 -->
+                            <tr class="hover:bg-surface/50 transition-colors bg-red-50/40">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0415</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Claim #2198 — Budi Santoso</div>
+                                    <div class="text-xs text-text-secondary">Policy POL-00118</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Claim Processing</td>
+                                <td class="px-4 py-3 text-text-primary">Adjuster Review</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block"></span>
+                                        ● Pending
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Claims Team</td>
+                                <td class="px-4 py-3">
+                                    <span class="text-error font-medium text-xs flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+                                        Apr 07
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">Open →</a>
+                                        <button class="text-xs text-text-secondary hover:text-text-primary border border-border rounded px-2 py-0.5 hover:bg-surface">Reassign</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Normal rows -->
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0421</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #5021 — PT Maju Jaya</div>
+                                    <div class="text-xs text-text-secondary">PO #001 · Project Alpha</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">Manual Verify</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block"></span>
+                                        Pending
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">AP Team</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 10</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">Open →</a>
+                                        <button class="text-xs text-text-secondary hover:text-text-primary border border-border rounded px-2 py-0.5 hover:bg-surface">Reassign</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0420</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #5018 — CV Sukses Mandiri</div>
+                                    <div class="text-xs text-text-secondary">PO #099 · Project Beta</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">Post to ERP</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block animate-pulse"></span>
+                                        Auto
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">—</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 09</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">View →</a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0419</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #4998 — CV Sukses</div>
+                                    <div class="text-xs text-text-secondary">PO #097</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">AI Extraction</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block animate-pulse"></span>
+                                        Auto
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">—</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 09</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">View →</a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0412</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Claim #2201 — Ahmad Syaifudin</div>
+                                    <div class="text-xs text-text-secondary">Policy POL-00123</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Claim Processing</td>
+                                <td class="px-4 py-3 text-text-primary">Adjuster Review</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block"></span>
+                                        Pending
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Claims Team</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 11</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">Open →</a>
+                                        <button class="text-xs text-text-secondary hover:text-text-primary border border-border rounded px-2 py-0.5 hover:bg-surface">Reassign</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface/50 transition-colors">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0410</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Credit Facility #F09 — PT Berkah</div>
+                                    <div class="text-xs text-text-secondary">—</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Credit Application</td>
+                                <td class="px-4 py-3 text-text-primary">Underwriter Decision</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span>
+                                        In Review
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Underwriting</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 12</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <a href="../operator/case-detail.html" class="text-xs text-primary font-medium hover:underline whitespace-nowrap">Open →</a>
+                                        <button class="text-xs text-text-secondary hover:text-text-primary border border-border rounded px-2 py-0.5 hover:bg-surface">Reassign</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface/50 transition-colors opacity-60">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0405</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #4977 — PT Nusantara</div>
+                                    <div class="text-xs text-text-secondary">PO #089</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">Posted to ERP</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-primary-light text-primary border border-primary/20">
+                                        ✓ Done
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">—</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 07</td>
+                                <td class="px-4 py-3">
+                                    <a href="../operator/case-detail.html" class="text-xs text-text-secondary hover:text-text-primary hover:underline whitespace-nowrap">View →</a>
+                                </td>
+                            </tr>
+
+                            <!-- Rejected row -->
+                            <tr class="hover:bg-surface/50 transition-colors opacity-60">
+                                <td class="px-4 py-3 font-mono text-xs text-text-secondary">PROC-0401</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-text-primary">Invoice #4950 — CV Makmur</div>
+                                    <div class="text-xs text-text-secondary">PO #070</div>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary">Invoice AP Cycle</td>
+                                <td class="px-4 py-3 text-text-primary">Approval</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-error/10 text-error border border-error/20">
+                                        ✗ Rejected
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Finance Approvers</td>
+                                <td class="px-4 py-3 text-text-secondary text-xs">Apr 05</td>
+                                <td class="px-4 py-3">
+                                    <a href="../operator/case-detail.html" class="text-xs text-text-secondary hover:text-text-primary hover:underline whitespace-nowrap">View →</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between px-4 py-3 border-t border-border bg-surface/40">
+                        <span class="text-xs text-text-secondary">Showing 1–8 of 24</span>
+                        <div class="flex items-center gap-1">
+                            <button class="h-7 w-7 flex items-center justify-center rounded border border-border bg-white text-text-secondary hover:bg-surface disabled:opacity-40" disabled>
+                                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+                            <button class="h-7 w-7 flex items-center justify-center rounded border border-primary bg-primary-light text-primary text-xs font-medium">1</button>
+                            <button class="h-7 w-7 flex items-center justify-center rounded border border-border bg-white text-text-secondary text-xs hover:bg-surface">2</button>
+                            <button class="h-7 w-7 flex items-center justify-center rounded border border-border bg-white text-text-secondary text-xs hover:bg-surface">3</button>
+                            <button class="h-7 w-7 flex items-center justify-center rounded border border-border bg-white text-text-secondary hover:bg-surface">
+                                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
